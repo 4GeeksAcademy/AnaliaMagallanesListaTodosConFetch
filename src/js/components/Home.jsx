@@ -1,28 +1,54 @@
 import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import { useState } from "react";
 
 //create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-            
+	let [listado, actualizarListado] = useState([]);
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+
+  let [textoInput, actualizarTextoInput] = useState("");
+
+function capturarEventoOnChange(evento) {
+  actualizarTextoInput(evento.target.value);
+}
+function capturarEventoOnClickAgregar(evento) {
+let listaNueva= Array.from (listado);
+listaNueva.push(textoInput);
+actualizarListado(listaNueva);
+}
+
+function CapturarEventoOnClicEliminar(Index) {
+  let listaNueva= Array.from (listado);
+  listaNueva.splice(Index,1);
+  actualizarListado(listaNueva);
+}
+
+return (
+  <>
+
+    <h1> todos </h1>
+    <input onChange={capturarEventoOnChange} type="text" />
+
+
+    <button onClick={capturarEventoOnClickAgregar}>agregar item</button>
+    <ul>
+      {
+        listado.map((item , Index) => {
+          return <li key={Index}>{item} <button onClick={() =>CapturarEventoOnClicEliminar(Index)}> Eliminar </button></li>
+
+        })
+      }
+
+    </ul>
+
+
+
+
+
+
+  </>
+
+)
 };
 
 export default Home;
